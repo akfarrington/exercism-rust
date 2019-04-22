@@ -2,23 +2,18 @@
 pub fn is_valid(code: &str) -> bool {
     const RADIX: u32 = 10;
 
-    // check if the code is too short
-    if code.trim().len() < 2 {
-        return false;
-    }
-
-    // check if any chars are not a space or number, and if so return false
-    if code
-        .chars()
-        .any(|character| !character.is_numeric() && !character.eq(&' '))
+    // check if the code is too short OR if code has an illegal character
+    if code.trim().len() < 2
+        || code
+            .chars()
+            .any(|character| !character.is_numeric() && !character.eq(&' '))
     {
         return false;
     }
 
     // filter out spaces, collect into Vec<u8>, reverse to find
     // what numbers to double, double the correct ones, find sum
-    let sum: u8 = code
-        .chars()
+    code.chars()
         .filter(|character| character.is_numeric())
         .map(|character| character.to_digit(RADIX).unwrap() as u8)
         .collect::<Vec<u8>>()
@@ -33,9 +28,9 @@ pub fn is_valid(code: &str) -> bool {
                 false => double(number),
             },
         })
-        .sum();
-
-    sum % 10 == 0
+        .sum::<u8>()
+        % 10
+        == 0
 }
 
 // doubles the number then subtracts 9 if it's greater than 9
