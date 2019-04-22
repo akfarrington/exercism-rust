@@ -7,5 +7,7 @@
 # More information here http://doc.crates.io/guide.html#cargotoml-vs-cargolock
 Cargo.lock
 
-# don't share .exercism folders
+# don't share .exercism folders and other junk
 **/.exercism/
+**/target/
+**/.DS_Store
