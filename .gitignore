@@ -10,4 +10,4 @@ Cargo.lock
 # don't share .exercism folders and other junk
 **/.exercism/
 **/target/
-**/.DS_Store
+.DS_Store
