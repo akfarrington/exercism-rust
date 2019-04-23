@@ -8,35 +8,41 @@ pub struct Clock {
 
 impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
-        Clock::crunch_minutes(hours * 60 + minutes)
+        Clock{
+            hours,
+            minutes,
+        }.correct_time()
     }
 
     pub fn add_minutes(&self, minutes: i32) -> Self {
-        Clock::crunch_minutes(self.hours * 60 + self.minutes + minutes)
+        Clock{
+            hours: self.hours,
+            minutes: self.minutes + minutes,
+        }.correct_time()
     }
 
-    pub fn crunch_minutes(minutes: i32) -> Self {
-        let mut new_hours = minutes / 60;
-        let mut new_minutes = minutes % 60;
+    pub fn correct_time(&self) -> Clock{
+        // first break down the time to minutes
+        let total_minutes: i32 = self.hours * 60 + self.minutes;
 
-        // when add_minutes passes negative number of minutes
-        while new_minutes < 0 {
-            new_minutes += 60;
-            new_hours -= 1;
+        let mut correct_time = Clock{
+            hours: total_minutes / 60,
+            minutes: total_minutes % 60,
+        };
+
+        // if the time is still messed up, this fixes it
+        while correct_time.minutes < 0 {
+            correct_time.minutes += 60;
+            correct_time.hours -= 1;
         }
-        // when negative add_minutes makes new_hours negative
-        while new_hours < 0 {
-            new_hours += 24;
+        while correct_time.hours < 0 {
+            correct_time.hours += 24;
         }
-        // when Clock::new() passes a number of hours over 24
-        while new_hours >= 24 {
-            new_hours -= 24;
+        while correct_time.hours >= 24 {
+            correct_time.hours -= 24;
         }
 
-        Clock {
-            hours: new_hours,
-            minutes: new_minutes,
-        }
+        correct_time
     }
 }
 
