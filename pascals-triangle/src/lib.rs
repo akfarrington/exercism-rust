@@ -14,10 +14,8 @@ impl PascalsTriangle {
             let complete_row = (1..=row)
                 .map(|column| {
                     if column == 1 || column == row {
-                        println!("if ends - row: {}, column: {}", row, column);
                         1
                     } else {
-                        println!("not ends - row: {}, column: {}", row, column);
                         rows_vec[row as usize - 2 as usize][column as usize - 1 as usize]
                             + rows_vec[row as usize - 2 as usize][column as usize - 2 as usize]
                     }
